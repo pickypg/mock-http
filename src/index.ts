@@ -3,7 +3,7 @@ import { version } from '../package.json';
 
 const app = express();
 
-app.all('/', (_req, res) => {
+app.get('/', (_req, res) => {
   res.json({
     message: `Hello from the server ${version}`,
     version,
@@ -13,6 +13,15 @@ app.all('/', (_req, res) => {
 app.all('/help', (_req, res) => {
   res.json({
     message: `This is some help text for ${version}`,
+    version,
+  });
+});
+
+app.use((req, res) => {
+  res.status(404).json({
+    message: `Not found ${version}`,
+    method: req.method,
+    path: req.path,
     version,
   });
 });
